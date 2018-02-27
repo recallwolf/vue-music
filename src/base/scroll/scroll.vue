@@ -24,6 +24,14 @@ import BScroll from 'better-scroll'
       listenScroll: {
         type: Boolean,
         default: false
+      },
+      pullup: {
+        type: Boolean,
+        default: false
+      },
+      beforeScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -45,6 +53,20 @@ import BScroll from 'better-scroll'
           let self = this
           this.scroll.on('scroll', (pos) => {
             self.$emit('scroll', pos)
+          })
+        }
+
+        if (this.pullup) {
+          this.scroll.on('scrollEnd', () => {
+            if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+              this.$emit('scrollToEnd')
+            }
+          })
+        }
+
+        if (!this.beforeScroll) {
+          this.scroll.on('beforeScroll', ()=> {
+            this.$emit('beforeScroll')
           })
         }
       },
