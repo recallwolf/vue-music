@@ -86,6 +86,9 @@
       listScroll() {
         this.$emit('listScroll')
       },
+      refresh() {
+        this.$refs.suggest.refresh()
+      },
       _checkMore(data) {
         const song = data.song
         if (!song.list.length || (song.curnum + song.curpage * perpage) >= song.totalnum) {
@@ -114,7 +117,8 @@
         else {
           this.insertSong(item)
         }
-      },
+        this.$emit('select', item)
+      }, 
       getIconCls(item) {
         if (item.type === TYPE_SINGER) {
           return 'icon-mine'
